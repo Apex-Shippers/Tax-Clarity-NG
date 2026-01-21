@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 
 // --- Helper: Currency Formatter ---
 const formatCurrency = (amount: number) => {
@@ -21,6 +21,8 @@ export default function TaxCalculator() {
   // State
   const [grossIncome, setGrossIncome] = useState<number>(50000000);
   const [pensionRate, setPensionRate] = useState<number>(8); // Default 8%
+
+  const monthlyIncome = Math.round(grossIncome / 12);
 
   // --- Calculations ---
   const calculations = useMemo(() => {
@@ -93,8 +95,16 @@ export default function TaxCalculator() {
       monthlyTax,
       annualNet,
       monthlyNet,
+      grossIncome,
+      monthlyIncome: Math.round(grossIncome / 12),
+      pensionRate,
     };
   }, [grossIncome, pensionRate]);
+
+  // Store calculations in localStorage
+  useEffect(() => {
+    localStorage.setItem('taxCalculations', JSON.stringify(calculations));
+  }, [calculations]);
 
   // --- Slider Handler ---
   const getSliderStyle = (value: number, min: number, max: number) => {
@@ -208,6 +218,31 @@ export default function TaxCalculator() {
                 onChange={(e) => {
                   const val = Number(e.target.value.replace(/,/g, ""));
                   if (!isNaN(val)) setGrossIncome(val);
+                }}
+                className="w-full px-4 py-3 text-gray-700 border border-gray-200 rounded-xl focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-all bg-white"
+              />
+            </div>
+          </div>
+
+          {/* Monthly Income Input */}
+          <div className="mb-8">
+            <div className="flex justify-between items-end mb-4">
+              <label className="text-lg text-gray-700 font-medium">
+                Monthly Income
+              </label>
+              <span className="text-lg font-bold text-gray-900">
+                {formatCurrency(monthlyIncome)}
+              </span>
+            </div>
+
+            {/* Text Input */}
+            <div className="relative">
+              <input
+                type="text"
+                value={formatNumberInput(monthlyIncome)}
+                onChange={(e) => {
+                  const val = Number(e.target.value.replace(/,/g, ""));
+                  if (!isNaN(val)) setGrossIncome(Math.round(val * 12));
                 }}
                 className="w-full px-4 py-3 text-gray-700 border border-gray-200 rounded-xl focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-all bg-white"
               />
