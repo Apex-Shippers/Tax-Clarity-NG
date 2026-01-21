@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
+import { Link } from "react-router";
 
 // --- Helper: Currency Formatter ---
 const formatCurrency = (amount: number) => {
@@ -314,6 +315,13 @@ export default function TaxCalculator() {
                 {formatCurrency(calculations.taxableIncome)}
               </span>
             </div>
+            <br />
+                <Link
+                            to="/status"
+                            className="w-full bg-lightGreen text-white font-medium px-4 py-3 rounded-sm shadow-sm"
+                          >
+                            Check My Tax Status
+                          </Link>
           </div>
         </div>
 
@@ -410,6 +418,7 @@ export default function TaxCalculator() {
                 <span className="w-3 h-3 rounded-full bg-[#FF5252]"></span>
                 <span className="text-red-500">Tax</span>
               </div>
+          
             </div>
           </div>
 
