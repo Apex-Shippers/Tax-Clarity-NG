@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@themes {
+@theme {
   --color-green: "#016630";
   --color-darkGreen: "#0D542B";
   --color-lightGreen: "#008236";
