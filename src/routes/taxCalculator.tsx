@@ -23,6 +23,32 @@ export default function TaxCalculator() {
   const [grossIncome, setGrossIncome] = useState<number>(50000000);
   const [pensionRate, setPensionRate] = useState<number>(8); // Default 8%
 
+  // Load from localStorage on mount
+  useEffect(() => {
+    const savedIncome = localStorage.getItem('grossIncome');
+    const savedPension = localStorage.getItem('pensionRate');
+    if (savedIncome) setGrossIncome(Number(savedIncome));
+    if (savedPension) setPensionRate(Number(savedPension));
+  }, []);
+
+  // Save to localStorage on change
+  useEffect(() => {
+    localStorage.setItem('grossIncome', grossIncome.toString());
+  }, [grossIncome]);
+
+  useEffect(() => {
+    localStorage.setItem('pensionRate', pensionRate.toString());
+  }, [pensionRate]);
+
+  // Reset function
+  const handleReset = () => {
+    setGrossIncome(50000000);
+    setPensionRate(8);
+    localStorage.removeItem('grossIncome');
+    localStorage.removeItem('pensionRate');
+    localStorage.removeItem('taxCalculations');
+  };
+
   const monthlyIncome = Math.round(grossIncome / 12);
 
   // --- Calculations ---
@@ -316,12 +342,20 @@ export default function TaxCalculator() {
               </span>
             </div>
             <br />
-                <Link
-                            to="/status"
-                            className="w-full bg-lightGreen text-white font-medium px-4 py-3 rounded-sm shadow-sm"
-                          >
-                            Check My Tax Status
-                          </Link>
+            <div className="flex gap-4">
+              <button
+                onClick={handleReset}
+                className="flex-1 bg-red-400 hover:bg-red-500 text-white font-medium px-4 py-3 rounded-sm shadow-sm transition-colors"
+              >
+                Reset
+              </button>
+              <Link
+                to="/status"
+                className="flex-1 bg-lightGreen text-white font-medium px-4 py-3 rounded-sm shadow-sm text-center"
+              >
+                Check My Tax Status
+              </Link>
+            </div>
           </div>
         </div>
 

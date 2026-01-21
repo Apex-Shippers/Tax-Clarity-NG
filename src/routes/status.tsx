@@ -86,10 +86,29 @@ export default function Status() {
           <div className="mt-6">
             <h3 className="text-xl font-bold text-gray-900 mb-4">Tips and Suggestions</h3>
             <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <li>Consider increasing your pension contribution for better retirement savings.</li>
-              <li>Explore additional tax reliefs like NHF or Life Assurance to reduce your taxable income.</li>
-              <li>Review your income sources to optimize your tax bracket.</li>
-              <li>Consult a tax professional for personalized advice.</li>
+              {(() => {
+                const income = calculations.grossIncome;
+                const tips = [];
+                if (income < 500000) {
+                  tips.push("Focus on building basic savings and understanding your tax obligations.");
+                  tips.push("Consider starting a small pension contribution to prepare for the future.");
+                  tips.push("Track your income and expenses to identify potential tax reliefs.");
+                } else if (income < 2000000) {
+                  tips.push("Increase your pension contribution to at least 8% for better retirement security.");
+                  tips.push("Explore tax reliefs like NHF contributions or life assurance to reduce taxable income.");
+                  tips.push("Review your budget to optimize savings and tax efficiency.");
+                } else if (income < 5000000) {
+                  tips.push("Aim for higher pension contributions (10-15%) to maximize long-term benefits.");
+                  tips.push("Utilize multiple tax reliefs and consider investment deductions.");
+                  tips.push("Diversify income sources and consult on tax-advantaged investments.");
+                } else {
+                  tips.push("Maximize all available pension and relief options for optimal tax planning.");
+                  tips.push("Engage professional tax advisors for advanced strategies and compliance.");
+                  tips.push("Consider estate planning and high-value investment tax implications.");
+                }
+                tips.push("Consult a tax professional for personalized advice.");
+                return tips.map((tip, index) => <li key={index}>{tip}</li>);
+              })()}
             </ul>
           </div>
           <div className="mt-8">
