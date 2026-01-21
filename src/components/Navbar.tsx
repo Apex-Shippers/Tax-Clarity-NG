@@ -6,11 +6,11 @@ export default function Navbar() {
 
   return (
     <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 items-center">
           {/* LOGO */}
           <Link to="/" className="flex items-center gap-2">
-            <div className="text-green-600">
+            <div className="text-green">
               {/* Scale Icon SVG */}
               <svg
                 width="28"
@@ -29,7 +29,7 @@ export default function Navbar() {
                 <path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2" />
               </svg>
             </div>
-            <span className="font-bold text-xl text-green-900 tracking-tight">
+            <span className="font-bold text-xl text-darkGreen tracking-tight">
               TaxClarityNG
             </span>
           </Link>
@@ -38,17 +38,17 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-8">
             <Link
               to="/"
-              className="text-gray-600 hover:text-green-700 font-medium text-base transition-colors"
+              className="text-gray-600 hover:text-green font-medium text-base transition-colors"
             >
               Rule Library
             </Link>
             <Link
               to="/tax-calculator"
-              className="text-gray-500 hover:text-green-700 font-medium text-base transition-colors"
+              className="text-gray-500 hover:text-green font-medium text-base transition-colors"
             >
               Tax Calculator
             </Link>
-            <button className="bg-[#00D64F] hover:bg-green-600 text-white font-medium px-6 py-2.5 rounded-[4px] transition-colors shadow-sm cursor-pointer">
+            <button className="bg-lightGreen hover:bg-green text-white font-medium px-6 py-2.5 rounded-sm transition-colors shadow-sm cursor-pointer">
               Check my Status
             </button>
           </div>
@@ -80,23 +80,23 @@ export default function Navbar() {
 
       {/* Mobile Menu Dropdown */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-white border-t border-gray-100 absolute w-full left-0 shadow-lg">
+        <div className="md:hidden bg-background border-t border-gray-100 absolute w-full left-0 shadow-lg">
           <div className="px-4 pt-2 pb-6 space-y-4 flex flex-col items-center">
             <Link
               to="/"
-              className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-gray-50 rounded-md w-full text-center"
+              className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green hover:bg-gray-50 rounded-md w-full text-center"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Rule Library
             </Link>
             <Link
               to="/tax-calculator"
-              className="block px-3 py-2 text-base font-medium text-gray-500 hover:text-green-600 hover:bg-gray-50 rounded-md w-full text-center"
+              className="block px-3 py-2 text-base font-medium text-gray-500 hover:text-green hover:bg-gray-50 rounded-md w-full text-center"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Tax Calculator
             </Link>
-            <button className="w-full bg-[#00D64F] text-white font-medium px-4 py-3 rounded-[4px] shadow-sm">
+            <button className="w-full bg-lightGreen text-white font-medium px-4 py-3 rounded-sm shadow-sm">
               Check my Status
             </button>
           </div>
