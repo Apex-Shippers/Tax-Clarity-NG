@@ -40,12 +40,18 @@ export default function Navbar() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             <Link
-              to="/"
-              className={`font-medium text-base transition-colors hover:text-green ${
-                isActive("/") ? "text-green" : "text-gray-600"
+              to="/index"
+               className={`font-medium text-base transition-colors hover:text-green ${
+                isActive("/index") ? "text-green" : "text-gray-600"
               }`}
-            >
-              Rule Library
+            >              Home
+            </Link>
+            <Link
+              to="rule-library"
+              className={`font-medium text-base transition-colors hover:text-green ${
+                isActive("/rule-library") ? "text-green" : "text-gray-600"
+              }`}
+            >              Rule Library
             </Link>
             <Link
               to="/tax-calculator"
@@ -55,9 +61,12 @@ export default function Navbar() {
             >
               Tax Calculator
             </Link>
-            <button className="bg-lightGreen hover:bg-green text-white font-medium px-6 py-2.5 rounded-sm transition-colors shadow-sm cursor-pointer">
+            <Link
+              to="/status"
+              className="bg-lightGreen hover:bg-green text-white font-medium px-6 py-2.5 rounded-sm transition-colors shadow-sm cursor-pointer"
+            >
               Check my Status
-            </button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -90,13 +99,20 @@ export default function Navbar() {
         <div className="md:hidden bg-background border-t border-gray-100 absolute w-full left-0 shadow-lg">
           <div className="px-4 pt-2 pb-6 space-y-4 flex flex-col items-center">
             <Link
-              to="/"
-              className={`block px-3 py-2 text-base font-medium rounded-md w-full text-center hover:text-green hover:bg-gray-50 ${
-                isActive("/") ? "text-green" : "text-gray-700"
+              to="/index"
+               className={`block px-3 py-2 text-base font-medium rounded-md w-full text-center hover:text-green hover:bg-gray-50 ${
+                isActive("/index") ? "text-green" : "text-gray-700"
               }`}
               onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Rule Library
+            >              Home
+            </Link>
+            <Link
+              to="/rule-library"
+               className={`block px-3 py-2 text-base font-medium rounded-md w-full text-center hover:text-green hover:bg-gray-50 ${
+                isActive("/rule-library") ? "text-green" : "text-gray-700"
+              }`}
+              onClick={() => setIsMobileMenuOpen(false)}
+            >              Rule Library
             </Link>
             <Link
               to="/tax-calculator"
@@ -107,9 +123,13 @@ export default function Navbar() {
             >
               Tax Calculator
             </Link>
-            <button className="w-full bg-lightGreen text-white font-medium px-4 py-3 rounded-sm shadow-sm">
+            <Link
+              to="/status"
+              className="w-full bg-lightGreen text-white text-center font-medium px-4 py-3 rounded-sm shadow-sm"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
               Check my Status
-            </button>
+            </Link>
           </div>
         </div>
       )}

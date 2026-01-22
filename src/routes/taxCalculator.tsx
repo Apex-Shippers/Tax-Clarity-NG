@@ -1,4 +1,5 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { Link } from "react-router";
 
 // --- Helper: Currency Formatter ---
 const formatCurrency = (amount: number) => {
@@ -20,21 +21,47 @@ const formatNumberInput = (num: number) => {
 export default function TaxCalculator() {
   // State
   const [grossIncome, setGrossIncome] = useState<number>(0);
-  const [pensionRate, setPensionRate] = useState<number>(0);
+  const [pensionRate, setPensionRate] = useState<number>(8); // Default 0%
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    const savedIncome = localStorage.getItem('grossIncome');
+    const savedPension = localStorage.getItem('pensionRate');
+    if (savedIncome) setGrossIncome(Number(savedIncome));
+    if (savedPension) setPensionRate(Number(savedPension));
+  }, []);
+
+  // Save to localStorage on change
+  useEffect(() => {
+    localStorage.setItem('grossIncome', grossIncome.toString());
+  }, [grossIncome]);
+
+  useEffect(() => {
+    localStorage.setItem('pensionRate', pensionRate.toString());
+  }, [pensionRate]);
+
+  // Reset function
+  const handleReset = () => {
+    setGrossIncome(0);
+    setPensionRate(8);
+    localStorage.removeItem('grossIncome');
+    localStorage.removeItem('pensionRate');
+    localStorage.removeItem('taxCalculations');
+  };
+
+  const monthlyIncome = Math.round(grossIncome / 12);
 
   // --- Calculations ---
   const calculations = useMemo(() => {
     // 1. Pension
     const annualPension = (grossIncome * pensionRate) / 100;
 
-    // 2. Consolidated Relief Allowance (CRA)
-    // Higher of 200k or 1% of Gross + 20% of Gross
-    const craFixed = 200000;
-    const craOnePercent = grossIncome * 0.01;
-    const effectiveFixed = Math.max(craFixed, craOnePercent);
-    const craVariable = grossIncome * 0.2;
-    const cra = effectiveFixed + craVariable;
+    // 2. Consolidated Relief Allowance (CRA) - Nigerian 2026 Tax Policy
+    // For gross income <= ₦300,000: CRA = max(₦200,000, 20% of gross income)
 
+    const twentyPercent = grossIncome * 0.2;
+    const onePercent = grossIncome * 0.01;
+    const  cra = twentyPercent + Math.max(200000 , onePercent)
     // 3. Taxable Income
     // Gross - Pension - CRA (simplified for standard computation)
     const taxableIncome = Math.max(0, grossIncome - annualPension - cra);
@@ -93,8 +120,16 @@ export default function TaxCalculator() {
       monthlyTax,
       annualNet,
       monthlyNet,
+      grossIncome,
+      monthlyIncome: Math.round(grossIncome / 12),
+      pensionRate,
     };
   }, [grossIncome, pensionRate]);
+
+  // Store calculations in localStorage
+  useEffect(() => {
+    localStorage.setItem('taxCalculations', JSON.stringify(calculations));
+  }, [calculations]);
 
   // --- Slider Handler ---
   const getSliderStyle = (value: number, min: number, max: number) => {
@@ -214,6 +249,31 @@ export default function TaxCalculator() {
             </div>
           </div>
 
+          {/* Monthly Income Input */}
+          <div className="mb-8">
+            <div className="flex justify-between items-end mb-4">
+              <label className="text-lg text-gray-700 font-medium">
+                Monthly Income
+              </label>
+              <span className="text-lg font-bold text-gray-900">
+                {formatCurrency(monthlyIncome)}
+              </span>
+            </div>
+
+            {/* Text Input */}
+            <div className="relative">
+              <input
+                type="text"
+                value={formatNumberInput(monthlyIncome)}
+                onChange={(e) => {
+                  const val = Number(e.target.value.replace(/,/g, ""));
+                  if (!isNaN(val)) setGrossIncome(Math.round(val * 12));
+                }}
+                className="w-full px-4 py-3 text-gray-700 border border-gray-200 rounded-xl focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-all bg-white"
+              />
+            </div>
+          </div>
+
           {/* Pension Contribution */}
           <div className="mb-8">
             <div className="flex justify-between items-end mb-4">
@@ -276,6 +336,21 @@ export default function TaxCalculator() {
               <span className="text-gray-900 font-bold font-mono">
                 {formatCurrency(calculations.taxableIncome)}
               </span>
+            </div>
+            <br />
+            <div className="flex gap-4">
+              <button
+                onClick={handleReset}
+                className="flex-1 bg-red-400 hover:bg-red-500 text-white font-medium px-4 py-3 rounded-sm shadow-sm transition-colors"
+              >
+                Reset
+              </button>
+              <Link
+                to="/status"
+                className="flex-1 bg-lightGreen text-white font-medium px-4 py-3 rounded-sm shadow-sm text-center"
+              >
+                Check My Tax Status
+              </Link>
             </div>
           </div>
         </div>
@@ -373,6 +448,7 @@ export default function TaxCalculator() {
                 <span className="w-3 h-3 rounded-full bg-[#FF5252]"></span>
                 <span className="text-red-500">Tax</span>
               </div>
+          
             </div>
           </div>
 

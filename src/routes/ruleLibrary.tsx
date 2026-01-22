@@ -50,7 +50,7 @@ const taxRules: Rule[] = [
     description:
       "Rates vary between 5% and 10% depending on the transaction type and beneficiary status.",
     tags: [
-      { label: "Video Call", type: "primary" },
+      { label: "Withholding Tax", type: "primary" },
       { label: "Deduction", type: "secondary" },
       { label: "Compliance", type: "secondary" },
     ],
@@ -61,7 +61,7 @@ const taxRules: Rule[] = [
     description:
       "Tax paid by self-employed individuals directly to the state government where they reside.",
     tags: [
-      { label: "Video Call", type: "primary" },
+      { label: "Personal Income Tax", type: "primary" },
       { label: "Freelance", type: "secondary" },
       { label: "Self-Employed", type: "secondary" },
     ],
