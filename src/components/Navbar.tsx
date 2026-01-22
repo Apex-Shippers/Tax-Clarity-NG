@@ -1,8 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
+
+  const isActive = (path: string) => location.pathname === path;
 
   return (
     <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
@@ -38,13 +41,17 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-8">
             <Link
               to="/"
-              className="text-gray-600 hover:text-green font-medium text-base transition-colors"
+              className={`font-medium text-base transition-colors hover:text-green ${
+                isActive("/") ? "text-green" : "text-gray-600"
+              }`}
             >
               Rule Library
             </Link>
             <Link
               to="/tax-calculator"
-              className="text-gray-500 hover:text-green font-medium text-base transition-colors"
+              className={`font-medium text-base transition-colors hover:text-green ${
+                isActive("/tax-calculator") ? "text-green" : "text-gray-600"
+              }`}
             >
               Tax Calculator
             </Link>
@@ -84,14 +91,18 @@ export default function Navbar() {
           <div className="px-4 pt-2 pb-6 space-y-4 flex flex-col items-center">
             <Link
               to="/"
-              className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green hover:bg-gray-50 rounded-md w-full text-center"
+              className={`block px-3 py-2 text-base font-medium rounded-md w-full text-center hover:text-green hover:bg-gray-50 ${
+                isActive("/") ? "text-green" : "text-gray-700"
+              }`}
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Rule Library
             </Link>
             <Link
               to="/tax-calculator"
-              className="block px-3 py-2 text-base font-medium text-gray-500 hover:text-green hover:bg-gray-50 rounded-md w-full text-center"
+              className={`block px-3 py-2 text-base font-medium rounded-md w-full text-center hover:text-green hover:bg-gray-50 ${
+                isActive("/tax-calculator") ? "text-green" : "text-gray-500"
+              }`}
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Tax Calculator
