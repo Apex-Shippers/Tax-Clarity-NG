@@ -89,6 +89,10 @@ export default function Status() {
               {(() => {
                 const income = calculations.grossIncome;
                 const tips = [];
+                if(income <= 0){
+                  tips.push("Please enter a valid income to receive suggestions.");
+                  return tips.map((tip, index) => <li key={index}>{tip}</li>);
+                }
                 if (income < 500000) {
                   tips.push("Focus on building basic savings and understanding your tax obligations.");
                   tips.push("Consider starting a small pension contribution to prepare for the future.");

@@ -21,7 +21,7 @@ const formatNumberInput = (num: number) => {
 export default function TaxCalculator() {
   // State
   const [grossIncome, setGrossIncome] = useState<number>(0);
-  const [pensionRate, setPensionRate] = useState<number>(0); // Default 0%
+  const [pensionRate, setPensionRate] = useState<number>(8); // Default 0%
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -43,7 +43,7 @@ export default function TaxCalculator() {
   // Reset function
   const handleReset = () => {
     setGrossIncome(0);
-    setPensionRate(0);
+    setPensionRate(8);
     localStorage.removeItem('grossIncome');
     localStorage.removeItem('pensionRate');
     localStorage.removeItem('taxCalculations');
@@ -56,14 +56,12 @@ export default function TaxCalculator() {
     // 1. Pension
     const annualPension = (grossIncome * pensionRate) / 100;
 
-    // 2. Consolidated Relief Allowance (CRA)
-    // Higher of 200k or 1% of Gross + 20% of Gross
-    const craFixed = 200000;
-    const craOnePercent = grossIncome * 0.01;
-    const effectiveFixed = Math.max(craFixed, craOnePercent);
-    const craVariable = grossIncome * 0.2;
-    const cra = effectiveFixed + craVariable;
+    // 2. Consolidated Relief Allowance (CRA) - Nigerian 2026 Tax Policy
+    // For gross income <= ₦300,000: CRA = max(₦200,000, 20% of gross income)
 
+    const twentyPercent = grossIncome * 0.2;
+    const onePercent = grossIncome * 0.01;
+    const  cra = twentyPercent + Math.max(200000 , onePercent)
     // 3. Taxable Income
     // Gross - Pension - CRA (simplified for standard computation)
     const taxableIncome = Math.max(0, grossIncome - annualPension - cra);

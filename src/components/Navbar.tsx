@@ -110,7 +110,7 @@ export default function Navbar() {
             </Link>
             <Link
               to="/status"
-              className="w-full bg-lightGreen text-white font-medium px-4 py-3 rounded-sm shadow-sm"
+              className="w-full bg-lightGreen text-white text-center font-medium px-4 py-3 rounded-sm shadow-sm"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Check my Status
