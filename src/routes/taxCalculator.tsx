@@ -399,7 +399,7 @@ export default function TaxCalculator() {
             </div>
 
             <p className="text-gray-500 text-xs mt-6 leading-relaxed">
-              *Estimates based on standard computations. Actual liability may
+              Estimates based on standard computations. Actual liability may
               vary based on other reliefs (NHF, Life Assurance, etc).
             </p>
           </div>
