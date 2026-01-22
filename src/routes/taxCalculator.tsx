@@ -20,8 +20,8 @@ const formatNumberInput = (num: number) => {
 
 export default function TaxCalculator() {
   // State
-  const [grossIncome, setGrossIncome] = useState<number>(50000000);
-  const [pensionRate, setPensionRate] = useState<number>(8); // Default 8%
+  const [grossIncome, setGrossIncome] = useState<number>(0);
+  const [pensionRate, setPensionRate] = useState<number>(0); // Default 0%
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -42,8 +42,8 @@ export default function TaxCalculator() {
 
   // Reset function
   const handleReset = () => {
-    setGrossIncome(50000000);
-    setPensionRate(8);
+    setGrossIncome(0);
+    setPensionRate(0);
     localStorage.removeItem('grossIncome');
     localStorage.removeItem('pensionRate');
     localStorage.removeItem('taxCalculations');
