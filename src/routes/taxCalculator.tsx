@@ -19,8 +19,8 @@ const formatNumberInput = (num: number) => {
 
 export default function TaxCalculator() {
   // State
-  const [grossIncome, setGrossIncome] = useState<number>(50000000);
-  const [pensionRate, setPensionRate] = useState<number>(8); // Default 8%
+  const [grossIncome, setGrossIncome] = useState<number>(0);
+  const [pensionRate, setPensionRate] = useState<number>(0);
 
   // --- Calculations ---
   const calculations = useMemo(() => {
@@ -109,7 +109,7 @@ export default function TaxCalculator() {
     calculations.annualNet +
     calculations.annualPension +
     calculations.annualTax;
-    
+
   // SAFETY CHECK: Prevent division by zero if total is 0
   const safeTotal = totalForChart > 0 ? totalForChart : 1;
 
@@ -135,7 +135,7 @@ export default function TaxCalculator() {
   const taxRotation = pensionRotation + pPension * 3.6;
 
   return (
-    <div className="w-full max-w-[1280px] mx-auto px-4 py-8 md:py-12 font-sans">
+    <div className="w-full max-w-7xl mx-auto px-4 py-8 md:py-12 font-sans">
       {/* Header */}
       <div className="text-center mb-10 md:mb-16">
         <h1 className="text-4xl md:text-[3.5rem] font-bold text-[#006838] mb-3 tracking-tight">
@@ -149,7 +149,7 @@ export default function TaxCalculator() {
       {/* Main Grid Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
         {/* LEFT COLUMN: Income Details */}
-        <div className="bg-white rounded-[32px] p-6 md:p-10 border border-gray-100 shadow-sm">
+        <div className="bg-white rounded-4xl p-6 md:p-10 border border-gray-100 shadow-sm">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold text-gray-900">Income Details</h2>
           </div>
@@ -168,7 +168,7 @@ export default function TaxCalculator() {
             {/* Custom Range Slider */}
             <input
               type="range"
-              min="100000"
+              min="0"
               max="100000000"
               step="100000"
               value={grossIncome}
@@ -176,7 +176,7 @@ export default function TaxCalculator() {
               className="w-full h-2 rounded-lg appearance-none cursor-pointer mb-6"
               style={getSliderStyle(grossIncome, 100000, 100000000)}
             />
-            
+
             {/* Styles for Webkit slider thumb */}
             <style>{`
               input[type=range]::-webkit-slider-thumb {
@@ -244,13 +244,13 @@ export default function TaxCalculator() {
               <input
                 type="number"
                 min="0"
-                max="100" 
+                max="100"
                 value={pensionRate}
                 onChange={(e) => {
-                    const val = Number(e.target.value);
-                    // Allow free typing but maybe clamp on blur if needed. 
-                    // For now, simple binding allows flexibility.
-                    setPensionRate(val);
+                  const val = Number(e.target.value);
+                  // Allow free typing but maybe clamp on blur if needed.
+                  // For now, simple binding allows flexibility.
+                  setPensionRate(val);
                 }}
                 className="w-full px-4 py-3 text-gray-700 border border-gray-200 rounded-xl focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-all bg-white"
               />
@@ -272,9 +272,7 @@ export default function TaxCalculator() {
               </span>
             </div>
             <div className="flex justify-between items-center text-sm md:text-base">
-              <span className="text-gray-600 font-medium">
-                Taxable Income:
-              </span>
+              <span className="text-gray-600 font-medium">Taxable Income:</span>
               <span className="text-gray-900 font-bold font-mono">
                 {formatCurrency(calculations.taxableIncome)}
               </span>
@@ -283,7 +281,7 @@ export default function TaxCalculator() {
         </div>
 
         {/* RIGHT COLUMN: Breakdown Card */}
-        <div className="bg-[#0D1225] text-white rounded-[32px] p-6 md:p-10 shadow-xl min-h-[600px] flex flex-col justify-between relative overflow-hidden">
+        <div className="bg-[#0D1225] text-white rounded-4xl p-6 md:p-10 shadow-xl min-h-150 flex flex-col justify-between relative overflow-hidden">
           <div>
             <h2 className="text-2xl font-bold mb-10">Breakdown</h2>
 
