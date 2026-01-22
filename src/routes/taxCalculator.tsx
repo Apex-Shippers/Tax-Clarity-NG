@@ -367,7 +367,7 @@ export default function TaxCalculator() {
               </div>
               <div className="flex items-center gap-2">
                 <span className="w-3 h-3 rounded-full bg-[#FFC107]"></span>
-                <span className="text-yellow-500">Pension 2</span>
+                <span className="text-yellow-500">Pension</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="w-3 h-3 rounded-full bg-[#FF5252]"></span>
